@@ -1,3 +1,4 @@
+import client.Client;
 import db.PSQLConnector;
 
 import java.sql.Connection;
@@ -18,5 +19,9 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }*/
+
+        Client c = new Client();
+        c.sendMessage("action:get_new_messages;380997085725");
+        c.sendMessage("action:get_messages");
     }
 }

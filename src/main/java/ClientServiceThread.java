@@ -1,10 +1,10 @@
 
 import controller.ActionController;
 import org.apache.log4j.Logger;
+import parser.RequestParser;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 
 /**
  * Created by nshkarupa on 05.02.2016.
@@ -37,9 +37,8 @@ public class ClientServiceThread extends Thread {
                 parser.parse();
                 log.debug(parser);
                 ClientRepository.addClient(parser.getSenderPhone(), clientSocket);
-                ActionController actionController = new ActionController(parser.getAction());
+                ActionController actionController = new ActionController(parser);
                 actionController.executeAction();
-
                 if (clientCommand.equalsIgnoreCase("quit")) {
                     running = false;
                     System.out.print("Stopping client thread for client : " + clientID);

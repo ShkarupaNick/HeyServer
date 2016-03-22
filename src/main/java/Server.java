@@ -13,7 +13,6 @@ public class Server implements Runnable {
 
     public void run() {
         System.out.println("Server Started!!!");
-
         try {
             server = new ServerSocket(PORT, 10);
             int id = 0;

@@ -2,6 +2,7 @@ package controller;
 
 import db.PSQLConnector;
 import org.apache.log4j.Logger;
+import parser.RequestParser;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,13 +14,14 @@ import java.sql.Statement;
  */
 public class ActionController {
     public static final Logger log = Logger.getLogger(ActionController.class);
-
+    private RequestParser parser;
     private String action;
     private String result;
 
 
-    public ActionController(String action) {
-        this.action = action;
+    public ActionController(RequestParser p) {
+        this.parser = p;
+        this.action = p.getAction();
     }
 
     public String getAction() {
@@ -51,21 +53,41 @@ public class ActionController {
                     ResultSet resultSet = c.execQuery("select message_id, message_content from public.message");
                     log.debug("SQL --> select message_id, message_content from public.message");
                     while (resultSet.next()) {
+                        stringBuilder.append("{");
                         stringBuilder.append(resultSet.getString(1));
                         stringBuilder.append(":");
                         stringBuilder.append(resultSet.getString(2));
-                        stringBuilder.append(";");
+                        stringBuilder.append("}");
 
                     }
-                    result = stringBuilder.toString();
+                    result = stringBuilder.toString().equals("")?"null":stringBuilder.toString();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
 
                 break;
-            case "get_message_log":
-
+            case "get_new_messages":
+                try {
+                    ResultSet resultSet = c.execQuery("   select sender_phone_number, recipient_phone_number, sending_date, m.message_content from message_log ml \n" +
+                            "    join message m on m.message_id = ml.message_id and upper(ml.delivering_status) = 'NEW' and recipient_phone_number = '"+ parser.getRecipientPhone()+"'");
+                    log.debug("SQL -->    select sender_phone_number, recipient_phone_number, sending_date, m.message_content from message_log ml \njoin message m on m.message_id = ml.message_id and upper(ml.delivering_status) = 'NEW'");
+                    stringBuilder = new StringBuilder("");
+                    while (resultSet.next()) {
+                        stringBuilder.append("{sender_phone_number:");
+                        stringBuilder.append(resultSet.getString(1));
+                        stringBuilder.append(";");
+                        stringBuilder.append("sending_date:");
+                        stringBuilder.append(resultSet.getString(3));
+                        stringBuilder.append(";");
+                        stringBuilder.append("message_content:");
+                        stringBuilder.append(resultSet.getString(4));
+                        stringBuilder.append("}");
+                    }
+                    result = stringBuilder.toString();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
                 break;
         }

@@ -1,6 +1,5 @@
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
+package parser;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -61,15 +60,17 @@ public class RequestParser {
     }
 
     public void parse() {
+        String[] inputData = inputString.split(";");
         if (inputString.startsWith("action:get_messages")) {
             action = "get_messages";
         } else if (inputString.startsWith("action:send_message")) {
-            String[] inputData = inputString.split(";");
-
             action = inputData[0].replace("action:", "");
             senderPhone = inputData[1];
             recipientPhone = inputData[2];
             message = inputData[3];
+        } else if (inputString.startsWith("action:get_new_messages")){
+            action = "get_new_messages";
+            recipientPhone=inputString.split(";")[1];
         }
     }
 
