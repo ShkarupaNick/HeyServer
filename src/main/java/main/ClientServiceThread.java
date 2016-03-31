@@ -1,3 +1,4 @@
+package main;
 
 import controller.ActionController;
 import org.apache.log4j.Logger;
@@ -44,7 +45,7 @@ public class ClientServiceThread extends Thread {
                     System.out.print("Stopping client thread for client : " + clientID);
                 } else {
                     output.writeObject(actionController.getResult());
-                    log.debug("answer: " + actionController.getResult());
+                    //log.debug("answer: " + actionController.getResult());
                     output.flush();
                 }
             }

@@ -1,3 +1,5 @@
+package main;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,7 +14,7 @@ public class Server implements Runnable {
     private ServerSocket server;
 
     public void run() {
-        System.out.println("Server Started!!!");
+        System.out.println("main.Server Started!!!");
         try {
             server = new ServerSocket(PORT, 10);
             int id = 0;

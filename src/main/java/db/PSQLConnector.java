@@ -62,4 +62,6 @@ public class PSQLConnector {
     public ResultSet execQuery(String query) throws SQLException {
         return this.connection.createStatement().executeQuery(query);
     }
+
+
 }

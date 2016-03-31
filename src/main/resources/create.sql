@@ -28,3 +28,30 @@ WITH (
   OIDS = FALSE
 )
 ;
+
+
+
+insert into  message (message_content, message_type) values ('Message1','text'), ('Message2','text'), ('Message3','text');
+select * from message ;
+
+insert into message_log (message_id, sender_phone_number, recipient_phone_number, sending_date, delivering_status)
+
+select message_id, foo.* from message,  (values ('380997085725','380509125230', current_timestamp, 'NEW')) as foo ;
+
+
+insert into message_log (message_id, sender_phone_number, recipient_phone_number, sending_date, delivering_status)
+
+select message_id, foo.* from message,  (values ('380509125230','380997085725', current_timestamp, 'NEW')) as foo ;
+
+
+insert into message_log (message_id, sender_phone_number, recipient_phone_number, sending_date, delivering_status)
+
+select message_id, foo.* from message,  (values ('380997085725','380509125230', current_timestamp, 'RECEIVED')) as foo ;
+
+
+insert into message_log (message_id, sender_phone_number, recipient_phone_number, sending_date, delivering_status)
+
+select message_id, foo.* from message,  (values ('380509125230','380997085725', current_timestamp, 'RECEIVED')) as foo ;
+
+
+select * from message_log;

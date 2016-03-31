@@ -1,5 +1,6 @@
 package client;
 
+import main.Main;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -23,7 +24,9 @@ public class ClientListener extends Thread{
         try {
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             while (true){
-               log.info ((String)input.readObject());
+                String s = (String)input.readObject();
+               log.info (s);
+                Main.setResponce(s);
             }
         } catch (IOException e) {
             e.printStackTrace();

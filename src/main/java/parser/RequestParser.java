@@ -1,6 +1,7 @@
 package parser;
 
 import org.apache.log4j.Logger;
+import org.postgresql.util.Base64;
 
 /**
  * Created by Syma on 06.02.2016.
@@ -11,11 +12,19 @@ public class RequestParser {
     private String inputString;
     private String senderPhone;
     private String recipientPhone;
-    private String message;
+    private String[] recivedMessagesId;
+    private String messageId;
+
+
 
     public RequestParser(String inputString) {
         this.inputString = inputString;
     }
+
+    public String[] getRecivedMessagesId() {
+        return recivedMessagesId;
+    }
+
 
     public String getSenderPhone() {
         return senderPhone;
@@ -33,12 +42,12 @@ public class RequestParser {
         this.recipientPhone = recipientPhone;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessageId(String message) {
+        this.messageId = message;
     }
 
     public String getAction() {
@@ -55,7 +64,7 @@ public class RequestParser {
                 "action='" + action + '\'' +
                 ", senderPhone='" + senderPhone + '\'' +
                 ", recipientPhone='" + recipientPhone + '\'' +
-                ", message='" + message + '\'' +
+                ", message='" + messageId + '\'' +
                 '}';
     }
 
@@ -63,14 +72,20 @@ public class RequestParser {
         String[] inputData = inputString.split(";");
         if (inputString.startsWith("action:get_messages")) {
             action = "get_messages";
+
         } else if (inputString.startsWith("action:send_message")) {
             action = inputData[0].replace("action:", "");
             senderPhone = inputData[1];
             recipientPhone = inputData[2];
-            message = inputData[3];
+
+            messageId = inputData[3];
+
         } else if (inputString.startsWith("action:get_new_messages")){
             action = "get_new_messages";
             recipientPhone=inputString.split(";")[1];
+        } else if (inputString.startsWith("action:set_received_status")){
+            action = "set_received_status";
+            recivedMessagesId = inputString.replace("action:set_received_status;","").split(";");
         }
     }
 
