@@ -74,7 +74,7 @@ public class RequestParser {
             action = "get_messages";
 
         } else if (inputString.startsWith("action:send_message")) {
-            action = inputData[0].replace("action:", "");
+            action = "send_message";
             senderPhone = inputData[1];
             recipientPhone = inputData[2];
 

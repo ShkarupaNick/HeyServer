@@ -63,12 +63,14 @@ public class ActionController {
                 try {
                     ResultSet resultSet = c.execQuery(SqlRepository.getMessagesSQL);
                     log.debug("SQL --> " +SqlRepository.getMessagesSQL);
+                    stringBuilder.append("action:get_messages;");
                     while (resultSet.next()) {
-                        stringBuilder.append("{").append(resultSet.getString(1)).append(":");
+                        stringBuilder.append("{").append(resultSet.getString(1)).append(";");
                         stringBuilder.append(resultSet.getString(2)).append("}");
 
                     }
                     result = stringBuilder.toString().equals("") ? "null" : stringBuilder.toString();
+                    log.debug(result);
                 } catch (SQLException e) {
                     result = e.getMessage();
                 }
@@ -109,6 +111,5 @@ public class ActionController {
                 break;
         }
         c.close();
-
     }
 }

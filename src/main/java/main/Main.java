@@ -23,7 +23,7 @@ public class Main{
         Thread serverThread =  new Thread(new Server());
         serverThread.start();
 
-
+/*
         c = new Client();
         try {
             c.getClientListener().join();
@@ -32,7 +32,7 @@ public class Main{
         }
         c.sendMessage("action:get_new_messages;380997085725");
 
-
+*/
         //c.sendMessage("action:set_received_status;a9b407e6-f5b3-11e5-a539-00ff44467ca9;a9b407e6-f5b3-11e5-a539-00ff44467ca9;a9b42ef8-f5b3-11e5-a53e-00ff44467ca9");
         //c.sendMessage("action:get_messages");
         //c.sendMessage("action:send_message;380997085725;380509125230;037e9136-f5a2-11e5-a419-00ff44467ca9");
